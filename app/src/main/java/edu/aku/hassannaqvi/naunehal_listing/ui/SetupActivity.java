@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 
+import com.validatorcrawler.aliazaz.Clear;
+
 import androidx.databinding.DataBindingUtil;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +23,7 @@ public class SetupActivity extends Activity {
     private static String deviceId;
     private final String dtToday = new SimpleDateFormat("dd-MM-yy HH:mm", Locale.getDefault()).format(new Date().getTime());
     private final String TAG = "Setup Activity";
+
 
     ActivitySetupBinding bi;
 
@@ -40,11 +43,17 @@ public class SetupActivity extends Activity {
         deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-
+        setupSkips();
     }
 
 
     public void addFamily(View view) {
+    }
+
+    public void setupSkips(){
+        bi.hl08.setOnCheckedChangeListener(((radioGroup, i) -> {
+            Clear.clearAllFields(bi.fldGrphl09);
+        }));
     }
 }
 

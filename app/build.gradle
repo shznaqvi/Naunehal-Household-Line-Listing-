@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 //apply plugin: 'android-apt'
 
 android {
@@ -51,6 +53,11 @@ dependencies {
 
     // GSON
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    //Ali mask
+
+    implementation 'com.github.AliAzaz:Edittext-Library:2.0.0'
+    implementation 'com.github.AliAzaz:AndroidValidatorCrawler:1.0.3'
 }
 repositories {
     mavenCentral()
