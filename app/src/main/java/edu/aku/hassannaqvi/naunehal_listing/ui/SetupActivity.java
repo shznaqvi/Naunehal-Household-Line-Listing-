@@ -51,9 +51,7 @@ public class SetupActivity extends Activity {
     }
 
     public void setupSkips(){
-        bi.hl08.setOnCheckedChangeListener(((radioGroup, i) -> {
-            Clear.clearAllFields(bi.fldGrphl09);
-        }));
+        bi.hl08.setOnCheckedChangeListener((radioGroup, i) -> Clear.clearAllFields(bi.fldGrphl09));
     }
 }
 
