@@ -1,6 +1,8 @@
 package edu.aku.hassannaqvi.naunehal_listing.models;
 
-import android.provider.BaseColumns;
+
+import android.database.Cursor;
+import android.util.Log;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
@@ -9,37 +11,57 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.aku.hassannaqvi.naunehal_listing.BR;
+import edu.aku.hassannaqvi.naunehal_listing.contracts.ListingContract;
+import edu.aku.hassannaqvi.naunehal_listing.contracts.ListingContract.TableListings;
+import edu.aku.hassannaqvi.naunehal_listing.core.MainApp;
 
 /**
  * Created by hassan.naqvi on 10/18/2016.
  */
 public class Listings extends BaseObservable {
 
-    public String ID;
-    public String UID;
-    public String hhDT;
-    public String hl01;
-    public String hl02;
-    public String hl03;
-    public String hl04;
-    public String hl04x;
-    public String hl05;
-    public String hl06;
-    public String hl07;
-    public String hl0796x;
-    public String hl08;
-    public String hl09;
-    public String hl10;
-    public String hl11;
-    public String hl12m;
-    public String hl12d;
-    public String hhChildNm;
-    public String DeviceID;
-    public String GPSLat;
-    public String GPSLng;
-    public String GPSTime;
-    public String GPSAcc;
-    public String Round = "1";
+    private static final String TAG = "Listings";
+    public String ID = "";
+    public String UID = "";
+    public String hhDT = "";
+    public String hl01 = "";
+    public String hl02 = "";
+    public String hl03 = "";
+    public String hl04 = "";
+    public String hl04x = "";
+    public String hl05 = "";
+    public String hl06 = "";
+    public String hlDelete = "";
+    public String hl07 = "";
+    public String hl0796x = "";
+    public String hl08 = "";
+    public String hl09 = "";
+    public String hl09x = "";
+    public String hl10 = "";
+    public String hl11 = "";
+    public String hl12 = "";
+    public String hl12d = "";
+    public String hl13 = "";
+    public String hl13x = "";
+    public String hl14 = "";
+    public String hl14x = "";
+    public String hl15 = "";
+
+    // APP VARIABLES
+    private String projectName = MainApp.PROJECT_NAME;
+    private String userName;
+    private String sysDate;
+    private String dcode;
+    private String ucode;
+    private String cluster;
+    private String deviceId;
+    private String deviceTag;
+    private String appver;
+    private String gps;
+    private String endTime;
+    private String status;
+    private String synced;
+    private String syncDate;
 
     public Listings() {
     }
@@ -57,11 +79,7 @@ public class Listings extends BaseObservable {
         this.hl05 = hl05;
         this.hl06 = hl06;
         this.hl07 = hl07;
-        this.DeviceID = DeviceID;
-        this.GPSLat = GPSLat;
-        this.GPSLng = GPSLng;
-        this.GPSTime = GPSTime;
-        this.GPSAcc = GPSAcc;
+
     }
 
 
@@ -69,30 +87,42 @@ public class Listings extends BaseObservable {
         JSONObject json = new JSONObject();
         json.put(TableListings._ID, this.ID);
         json.put(TableListings.COLUMN_NAME_UID, this.UID);
-        json.put(TableListings.COLUMN_NAME_HHDATETIME, this.hhDT);
-        json.put(TableListings.COLUMN_NAME_hl01, this.hl01);
-        json.put(TableListings.COLUMN_NAME_hl02, this.hl02);
-        json.put(TableListings.COLUMN_NAME_hl03, this.hl03);
-        json.put(TableListings.COLUMN_NAME_hl04, this.hl04);
-        json.put(TableListings.COLUMN_NAME_hl04x, this.hl04x);
-        json.put(TableListings.COLUMN_NAME_hl05, this.hl05);
-        json.put(TableListings.COLUMN_NAME_hl06, this.hl06);
-        json.put(TableListings.COLUMN_NAME_hl07, this.hl07);
-        json.put(TableListings.COLUMN_NAME_hl07n, this.hl0796x);
-        json.put(TableListings.COLUMN_NAME_hl08, this.hl08);
-        json.put(TableListings.COLUMN_NAME_hl09, this.hl09);
-        json.put(TableListings.COLUMN_NAME_hl10, this.hl10);
-        json.put(TableListings.COLUMN_NAME_hl11, this.hl11);
-        json.put(TableListings.COLUMN_NAME_hl12m, this.hl12m);
-        json.put(TableListings.COLUMN_NAME_hl12d, this.hl12d);
-        json.put(TableListings.COLUMN_NAME_CHILD_NAME, this.hhChildNm);
-        json.put(TableListings.COLUMN_NAME_DEVICEID, this.DeviceID);
-        json.put(TableListings.COLUMN_NAME_GPSLat, this.GPSLat);
-        json.put(TableListings.COLUMN_NAME_GPSLng, this.GPSLng);
-        json.put(TableListings.COLUMN_NAME_GPSTime, this.GPSTime);
-        json.put(TableListings.COLUMN_NAME_GPSAccuracy, this.GPSAcc);
-        json.put(TableListings.COLUMN_NAME_ROUND, this.Round);
-
+        json.put(TableListings.COLUMN_NAME_HHDT, this.hhDT);
+        json.put(TableListings.COLUMN_NAME_HL01, this.hl01);
+        json.put(TableListings.COLUMN_NAME_HL02, this.hl02);
+        json.put(TableListings.COLUMN_NAME_HL03, this.hl03);
+        json.put(TableListings.COLUMN_NAME_HL04, this.hl04);
+        json.put(TableListings.COLUMN_NAME_HL04X, this.hl04x);
+        json.put(TableListings.COLUMN_NAME_HL05, this.hl05);
+        json.put(TableListings.COLUMN_NAME_HL06, this.hl06);
+        json.put(TableListings.COLUMN_NAME_HLDELETE, this.hlDelete);
+        json.put(TableListings.COLUMN_NAME_HL07, this.hl07);
+        json.put(TableListings.COLUMN_NAME_HL0796X, this.hl0796x);
+        json.put(TableListings.COLUMN_NAME_HL08, this.hl08);
+        json.put(TableListings.COLUMN_NAME_HL09, this.hl09);
+        json.put(TableListings.COLUMN_NAME_HL09X, this.hl09x);
+        json.put(TableListings.COLUMN_NAME_HL10, this.hl10);
+        json.put(TableListings.COLUMN_NAME_HL11, this.hl11);
+        json.put(TableListings.COLUMN_NAME_HL12, this.hl12);
+        json.put(TableListings.COLUMN_NAME_HL12D, this.hl12d);
+        json.put(TableListings.COLUMN_NAME_HL13, this.hl13);
+        json.put(TableListings.COLUMN_NAME_HL13X, this.hl13x);
+        json.put(TableListings.COLUMN_NAME_HL14, this.hl14);
+        json.put(TableListings.COLUMN_NAME_HL14X, this.hl14x);
+        json.put(TableListings.COLUMN_NAME_PROJECTNAME, this.projectName);
+        json.put(TableListings.COLUMN_NAME_USERNAME, this.userName);
+        json.put(TableListings.COLUMN_NAME_SYSDATE, this.sysDate);
+        json.put(TableListings.COLUMN_NAME_DCODE, this.dcode);
+        json.put(TableListings.COLUMN_NAME_UCODE, this.ucode);
+        json.put(TableListings.COLUMN_NAME_CLUSTER, this.cluster);
+        json.put(TableListings.COLUMN_NAME_DEVICETAG, this.deviceTag);
+        json.put(TableListings.COLUMN_NAME_DEVICEID, this.deviceId);
+        json.put(TableListings.COLUMN_NAME_APPVER, this.appver);
+        json.put(TableListings.COLUMN_NAME_GPS, this.gps);
+        json.put(TableListings.COLUMN_NAME_ENDTIME, this.endTime);
+        json.put(TableListings.COLUMN_NAME_STATUS, this.status);
+        json.put(TableListings.COLUMN_NAME_SYNCED, this.synced);
+        json.put(TableListings.COLUMN_NAME_SYNCDATE, this.syncDate);
         return json;
     }
 
@@ -201,6 +231,13 @@ public class Listings extends BaseObservable {
 
     public void setHl07(String hl07) {
         this.hl07 = hl07;
+        if (this.hl07 != "96") {
+            setHl0796x("");
+        }
+
+        if (this.hl07 == "7") {
+            setHl08("");
+        }
         notifyPropertyChanged(BR.hl07);
     }
 
@@ -216,12 +253,14 @@ public class Listings extends BaseObservable {
 
     @Bindable
     public String getHl08() {
+        Log.d(TAG, "getHl08: " + this.hl08);
         return hl08;
     }
 
     public void setHl08(String hl08) {
         this.hl08 = hl08;
         notifyPropertyChanged(BR.hl08);
+        Log.d(TAG, "setHl08: " + this.hl08);
     }
 
     @Bindable
@@ -231,8 +270,23 @@ public class Listings extends BaseObservable {
 
     public void setHl09(String hl09) {
         this.hl09 = hl09;
+        if (this.hl09 != "1") {
+            setHl09x("1");
+        }
+
         notifyPropertyChanged(BR.hl09);
     }
+
+    @Bindable
+    public String getHl09x() {
+        return hl09x;
+    }
+
+    public void setHl09x(String hl09x) {
+        this.hl09x = hl09x;
+        notifyPropertyChanged(BR.hl09x);
+    }
+
 
     @Bindable
     public String getHl10() {
@@ -255,13 +309,13 @@ public class Listings extends BaseObservable {
     }
 
     @Bindable
-    public String getHl12m() {
-        return hl12m;
+    public String getHl12() {
+        return hl12;
     }
 
-    public void setHl12m(String hl12m) {
-        this.hl12m = hl12m;
-        notifyPropertyChanged(BR.hl12m);
+    public void setHl12(String hl12) {
+        this.hl12 = hl12;
+        notifyPropertyChanged(BR.hl12);
     }
 
     @Bindable
@@ -275,97 +329,219 @@ public class Listings extends BaseObservable {
     }
 
     @Bindable
-    public String getHhChildNm() {
-        return hhChildNm;
+    public String getHl13() {
+        return hl13;
     }
 
-    public void setHhChildNm(String hhChildNm) {
-        this.hhChildNm = hhChildNm;
-        notifyPropertyChanged(BR.hhChildNm);
-    }
-
-    @Bindable
-    public String getDeviceID() {
-        return DeviceID;
-    }
-
-    public void setDeviceID(String DeviceID) {
-        this.DeviceID = DeviceID;
+    public void setHl13(String hl13) {
+        this.hl13 = hl13;
+        if (this.hl13 != "1") {
+            setHl13x("");
+        }
+        notifyPropertyChanged(BR.hl13);
     }
 
     @Bindable
-    public String getGPSLat() {
-        return GPSLat;
+    public String getHl13x() {
+        return hl13x;
     }
 
-    public void setGPSLat(String GPSLat) {
-        this.GPSLat = GPSLat;
-    }
-
-    @Bindable
-    public String getGPSLng() {
-        return GPSLng;
-    }
-
-    public void setGPSLng(String GPSLng) {
-        this.GPSLng = GPSLng;
+    public void setHl13x(String hl13x) {
+        this.hl13x = hl13x;
+        notifyPropertyChanged(BR.hl13x);
     }
 
     @Bindable
-    public String getGPSTime() {
-        return GPSTime;
+    public String getHl14() {
+        return hl14;
     }
 
-    public void setGPSTime(String GPSTime) {
-        this.GPSTime = GPSTime;
-    }
-
-    @Bindable
-    public String getGPSAcc() {
-        return GPSAcc;
-    }
-
-    public void setGPSAcc(String GPSAcc) {
-        this.GPSAcc = GPSAcc;
+    public void setHl14(String hl14) {
+        this.hl14 = hl14;
+        if (this.hl14 != "1") {
+            setHl14x("");
+        }
+        notifyPropertyChanged(BR.hl14);
     }
 
     @Bindable
-    public String getRound() {
-        return Round;
+    public String getHl14x() {
+        return hl14x;
     }
 
-    public void setRound(String Round) {
-        this.Round = Round;
+    public void setHl14x(String hl14x) {
+        this.hl14x = hl14x;
+        notifyPropertyChanged(BR.hl14x);
     }
 
-    public static abstract class TableListings implements BaseColumns {
-
-        public static final String TABLE_NAME = "listings";
-        public static final String COLUMN_NAME_NULLABLE = "NULLHACK";
-        public static final String _ID = "_id";
-        public static final String COLUMN_NAME_UID = "uid";
-        public static final String COLUMN_NAME_HHDATETIME = "hhdt";
-        public static final String COLUMN_NAME_hl01 = "hl01";
-        public static final String COLUMN_NAME_hl02 = "hl02";
-        public static final String COLUMN_NAME_hl03 = "hl03";
-        public static final String COLUMN_NAME_hl04 = "hl04";
-        public static final String COLUMN_NAME_hl04x = "hl04x";
-        public static final String COLUMN_NAME_hl05 = "hl05";
-        public static final String COLUMN_NAME_hl06 = "hl06";
-        public static final String COLUMN_NAME_hl07 = "hl07";
-        public static final String COLUMN_NAME_hl07n = "hl07n";
-        public static final String COLUMN_NAME_hl08 = "hl08";
-        public static final String COLUMN_NAME_hl09 = "hl09";
-        public static final String COLUMN_NAME_hl10 = "hl10";
-        public static final String COLUMN_NAME_hl11 = "hl11";
-        public static final String COLUMN_NAME_hl12m = "hl12m";
-        public static final String COLUMN_NAME_hl12d = "hl12d";
-        public static final String COLUMN_NAME_CHILD_NAME = "child_name";
-        public static final String COLUMN_NAME_DEVICEID = "deviceid";
-        public static final String COLUMN_NAME_GPSLat = "gpslat";
-        public static final String COLUMN_NAME_GPSLng = "gpslng";
-        public static final String COLUMN_NAME_GPSTime = "gpstime";
-        public static final String COLUMN_NAME_GPSAccuracy = "gpsacc";
-        public static final String COLUMN_NAME_ROUND = "round";
+    @Bindable
+    public String getHl15() {
+        return hl15;
     }
+
+    public void setHl15(String hl15) {
+        this.hl15 = hl15;
+        notifyPropertyChanged(BR.hl15);
+    }
+
+    @Bindable
+    public String getHlDelete() {
+        return hlDelete;
+    }
+
+    public void setHlDelete(String hlDelete) {
+        this.hlDelete = hlDelete;
+        notifyPropertyChanged(BR.hlDelete);
+    }
+
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getSysDate() {
+        return sysDate;
+    }
+
+    public void setSysDate(String sysDate) {
+        this.sysDate = sysDate;
+    }
+
+    public String getDcode() {
+        return dcode;
+    }
+
+    public void setDcode(String dcode) {
+        this.dcode = dcode;
+    }
+
+    public String getUcode() {
+        return ucode;
+    }
+
+    public void setUcode(String ucode) {
+        this.ucode = ucode;
+    }
+
+    public String getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(String cluster) {
+        this.cluster = cluster;
+    }
+
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getDeviceTag() {
+        return deviceTag;
+    }
+
+    public void setDeviceTag(String deviceTag) {
+        this.deviceTag = deviceTag;
+    }
+
+    public String getAppver() {
+        return appver;
+    }
+
+    public void setAppver(String appver) {
+        this.appver = appver;
+    }
+
+    public String getGps() {
+        return gps;
+    }
+
+    public void setGps(String gps) {
+        this.gps = gps;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSynced() {
+        return synced;
+    }
+
+    public void setSynced(String synced) {
+        this.synced = synced;
+    }
+
+
+    public Listings hydrate(Cursor cursor) {
+
+        this.ID = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings._ID));
+        this.UID = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_UID));
+        this.hhDT = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HHDT));
+        this.hl01 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL01));
+        this.hl02 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL02));
+        this.hl03 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL03));
+        this.hl04 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL04));
+        this.hl04x = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL04X));
+        this.hl05 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL05));
+        this.hl06 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL06));
+        this.hlDelete = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HLDELETE));
+        this.hl07 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL07));
+        this.hl0796x = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL0796X));
+        this.hl08 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL08));
+        this.hl09 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL09));
+        this.hl09x = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL09X));
+        this.hl10 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL10));
+        this.hl11 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL11));
+        this.hl12 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL12));
+        this.hl12d = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL12D));
+        this.hl13 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL13));
+        this.hl13x = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL13X));
+        this.hl14 = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL14));
+        this.hl14x = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_HL14X));
+        this.projectName = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_PROJECTNAME));
+        this.userName = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_USERNAME));
+        this.sysDate = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_SYSDATE));
+        this.dcode = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_DCODE));
+        this.ucode = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_UCODE));
+        this.cluster = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_CLUSTER));
+        this.deviceTag = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_DEVICETAG));
+        this.deviceId = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_DEVICEID));
+        this.appver = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_APPVER));
+        this.gps = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_GPS));
+        this.endTime = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_ENDTIME));
+        this.status = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_STATUS));
+        this.synced = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_SYNCED));
+        this.syncDate = cursor.getString(cursor.getColumnIndex(ListingContract.TableListings.COLUMN_NAME_SYNCDATE));
+        return this;
+    }
+
 }

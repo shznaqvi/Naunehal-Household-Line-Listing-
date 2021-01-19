@@ -54,12 +54,14 @@
         <item name="hintEnabled">false</item>
         <item name="android:buttonStyle">@style/button</item>
         <item name="android:textColorHint">@color/grayLight</item>
+        <item name="android:fontFamily">@font/jameel</item>
         <item name="android:typeface">sans</item>
         <item name="android:fillAfter">true</item>
         <item name="android:enterFadeDuration">600</item>
         <item name="android:exitFadeDuration">200</item>
         <item name="android:layoutDirection">rtl</item>
         <item name="android:animateLayoutChanges">false</item>
+        <item name="android:toolbarStyle">@style/topBarStyle</item>
 
     </style>
 
@@ -70,9 +72,10 @@
     </style>
 
     <style name="topBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorSecondary">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:typeface">sans</item>
-        <item name="android:fontFamily">fonts/JameelNooriNastaleeq</item>
+        <item name="android:fontFamily">@font/roboto</item>
 
     </style>
 
@@ -92,7 +95,7 @@
 
     </style>
 
-    <style name="textInput">
+    <style name="textInput" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">4dp</item>
@@ -300,4 +303,23 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="ToolBarStyle" parent="ToolBarStyle.Base" />
+
+    <style name="ToolBarStyle.Base" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ToolBarStyle.Event" parent="ToolBarStyle">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
+    </style>
+
+    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!--Any text styling can be done here-->
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

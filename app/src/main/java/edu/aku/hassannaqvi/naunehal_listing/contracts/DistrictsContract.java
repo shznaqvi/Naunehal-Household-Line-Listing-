@@ -12,40 +12,41 @@ import org.json.JSONObject;
 
 public class DistrictsContract {
 
-    private String districtCode;
-    private String districtName;
+    private String district;
+    private String dist_id;
+
 
     public DistrictsContract() {
     }
 
     public DistrictsContract sync(JSONObject jsonObject) throws JSONException {
-        this.districtCode = jsonObject.getString(TableDistricts.COLUMN_DISTRICT_CODE);
-        this.districtName = jsonObject.getString(TableDistricts.COLUMN_DISTRICT_NAME);
+        this.dist_id = jsonObject.getString(TableDistricts.COLUMN_DISTRICT_CODE);
+        this.district = jsonObject.getString(TableDistricts.COLUMN_DISTRICT_NAME);
 
         return this;
     }
 
     public DistrictsContract hydrate(Cursor cursor) {
-        this.districtCode = cursor.getString(cursor.getColumnIndex(TableDistricts.COLUMN_DISTRICT_CODE));
-        this.districtName = cursor.getString(cursor.getColumnIndex(TableDistricts.COLUMN_DISTRICT_NAME));
+        this.dist_id = cursor.getString(cursor.getColumnIndex(TableDistricts.COLUMN_DISTRICT_CODE));
+        this.district = cursor.getString(cursor.getColumnIndex(TableDistricts.COLUMN_DISTRICT_NAME));
 
         return this;
     }
 
-    public String getDistrictCode() {
-        return districtCode;
+    public String getDist_id() {
+        return dist_id;
     }
 
-    public void setDistrictCode(String districtCode) {
-        this.districtCode = districtCode;
+    public void setDist_id(String dist_id) {
+        this.dist_id = dist_id;
     }
 
-    public String getDistrictName() {
-        return districtName;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public static abstract class TableDistricts implements BaseColumns {

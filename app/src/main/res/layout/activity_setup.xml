@@ -28,7 +28,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#d6d6d6">
+            android:background="@drawable/app_bg_gray"
+
+            >
 
 
             <LinearLayout
@@ -38,6 +40,7 @@
 
 
                 <androidx.cardview.widget.CardView
+                    style="@style/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -128,32 +131,10 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <!--// Structure Type-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hl06" />
+
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/hl06"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hl06"
-                        android:text="@{listing.hl06}"
-                        android:textStyle="bold" />
-
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hl07"
-                    android:textStyle="bold" />
-
-                <androidx.cardview.widget.CardView
+                    style="@style/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -162,9 +143,45 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hl05" />
+
+                        <TextView
+                            android:id="@+id/hl05"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/border_1px_gray"
+                            android:hint="@string/hl05"
+                            android:text="@{listing.hl05}"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    style="@style/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hl07"
+                            android:textStyle="bold" />
+
                         <RadioGroup
                             android:id="@+id/hl07"
                             android:layout_width="match_parent"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/border_1px_gray"
                             android:layout_height="wrap_content">
 
                             <RadioButton
@@ -235,6 +252,8 @@
 
 
                         <EditText
+                            android:layout_margin="8dp"
+                            android:background="@drawable/border_1px_gray"
                             android:id="@+id/hl0796x"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -252,40 +271,49 @@
                     android:orientation="vertical"
                     android:visibility="@{listing.hl07.equals(`7`)? View.GONE: View.VISIBLE }">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hl08" />
 
                     <androidx.cardview.widget.CardView
+                        style="@style/cardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <RadioGroup
-                            android:id="@+id/hl08"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/hl0801"
-                                android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:text="@string/hl08" />
+
+                            <RadioGroup
+                                android:layout_margin="8dp"
+                                android:background="@drawable/border_1px_gray"
+                                android:id="@+id/hl08"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/hl0801"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                 android:checked="@{listing.hl08.equals(`1`)}"
                                 android:onClick="@{()->listing.setHl08(`1`)}"
                                 android:text="@string/yes" />
 
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/hl0802"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:checked="@{listing.hl08.equals(`2`)}"
-                                android:onClick="@{()->listing.setHl08(`2`)}"
-                                android:text="@string/no" />
-                        </RadioGroup>
-
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/hl0802"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:checked="@{listing.hl08.equals(`2`)}"
+                                    android:onClick="@{()->listing.setHl08(`2`)}"
+                                    android:text="@string/no" />
+                            </RadioGroup>
+                        </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
@@ -296,41 +324,70 @@
                     android:orientation="vertical"
                     android:visibility="@{listing.hl08.equals(`1`)?View.VISIBLE:View.GONE}">
                     <!--Are there more than one Families?-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hl09" />
 
 
                     <androidx.cardview.widget.CardView
+                        style="@style/cardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <RadioGroup
-                            android:id="@+id/hl09"
+                        <LinearLayout
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/hl0901"
-                                android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:text="@string/hl09" />
+
+                            <RadioGroup
+                                android:layout_margin="8dp"
+                                android:background="@drawable/border_1px_gray"
+                                android:id="@+id/hl09"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/hl0901"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
                                 android:checked="@{listing.hl09.equals(`1`)}"
                                 android:onClick="@{()->listing.setHl09(`1`)}"
-                                android:text="@string/yes" />
+                                    android:text="@string/yes" />
 
-                            <androidx.appcompat.widget.AppCompatRadioButton
-                                android:id="@+id/hl0902"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/hl0902"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:checked="@{listing.hl09.equals(`2`)}"
+                                    android:onClick="@{()->listing.setHl09(`2`)}"
+                                    android:text="@string/no" />
 
-                                android:layout_weight="1"
-                                android:checked="@{listing.hl09.equals(`2`)}"
-                                android:onClick="@{()->listing.setHl09(`2`)}"
-                                android:text="@string/no" />
-                        </RadioGroup>
+                                <TextView
+                                    style="@style/sub_labels"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal|center_vertical"
+                                    android:text="@string/count"
+                                    android:visibility="@{listing.hl09.equals(`1`)?View.VISIBLE:View.INVISIBLE}" />
+
+                                <EditText
+                                    android:id="@+id/hl09x"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+
+                                    android:layout_weight="1"
+                                    android:inputType="number"
+                                    android:maxLength="2"
+                                    android:text="@={listing.hl09x}"
+                                    android:visibility="@{listing.hl09.equals(`1`)?View.VISIBLE:View.INVISIBLE}" />
+                            </RadioGroup>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -345,24 +402,25 @@
                     android:padding="56dp">
 
                     <Button
-                        android:id="@+id/btnAddChild"
+                        android:id="@+id/btnAddFamily"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/action_button"
                         android:minHeight="36dp"
-                        android:onClick="addFamily"
+                        android:onClick="ContinueListing"
                         android:text="Add A Family"
                         android:textColor="@color/white"
                         android:visibility="@{listing.hl08.equals(`1`)?View.VISIBLE: View.GONE}" />
 
                     <Button
-                        android:id="@+id/btnAddHousehold"
+                        android:id="@+id/btnAddStructure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:background="@drawable/action_button"
                         android:minHeight="36dp"
-                        android:text="Goto Next Household"
+                        android:onClick="ContinueListing"
+                        android:text="Goto Next Structure"
+
                         android:textColor="@color/white"
                         android:visibility="@{listing.hl08.equals(`2`)?View.VISIBLE: View.GONE}" />
 
@@ -370,9 +428,10 @@
                         android:id="@+id/btnChangeCluster"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:background="@drawable/action_button"
                         android:minHeight="36dp"
+                        android:onClick="ContinueListing"
+
                         android:text="Change Cluster"
                         android:textColor="@color/white"
                         android:visibility="@{listing.hl07.equals(`7`)?View.VISIBLE: View.GONE}" />

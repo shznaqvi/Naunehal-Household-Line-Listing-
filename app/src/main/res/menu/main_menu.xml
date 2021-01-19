@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_sync"
+        android:icon="@drawable/ic_settings"
+        android:title="Sync Data"
+
+        />
+
+    <!-- Settings, should always be in the overflow -->
+    <item
+        android:id="@+id/action_database"
+        android:title="Open Database Manager">
+
+    </item>
+</menu>

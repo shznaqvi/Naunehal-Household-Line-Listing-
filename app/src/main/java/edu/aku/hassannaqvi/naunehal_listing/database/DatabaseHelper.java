@@ -27,7 +27,6 @@ import edu.aku.hassannaqvi.naunehal_listing.core.MainApp;
 import edu.aku.hassannaqvi.naunehal_listing.models.Listings;
 
 import static edu.aku.hassannaqvi.naunehal_listing.core.MainApp.PROJECT_NAME;
-import static edu.aku.hassannaqvi.naunehal_listing.core.MainApp.sharedPref;
 
 
 /**
@@ -55,28 +54,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_LISTING_TABLE = "CREATE TABLE " + TableListings.TABLE_NAME + " (" +
                 TableListings._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 TableListings.COLUMN_NAME_UID + " TEXT, " +
-                TableListings.COLUMN_NAME_HHDATETIME + " TEXT, " +
+                TableListings.COLUMN_NAME_HHDT + " TEXT, " +
                 TableListings.COLUMN_NAME_HL01 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL02 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL03 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL04 + " TEXT, " +
+                TableListings.COLUMN_NAME_HL04X + " TEXT, " +
                 TableListings.COLUMN_NAME_HL05 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL06 + " TEXT, " +
+                TableListings.COLUMN_NAME_HLDELETE + " TEXT, " +
                 TableListings.COLUMN_NAME_HL07 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL0796X + " TEXT, " +
                 TableListings.COLUMN_NAME_HL08 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL09 + " TEXT, " +
+                TableListings.COLUMN_NAME_HL09X + " TEXT, " +
                 TableListings.COLUMN_NAME_HL10 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL11 + " TEXT, " +
-                TableListings.COLUMN_NAME_HL12M + " TEXT, " +
+                TableListings.COLUMN_NAME_HL12 + " TEXT, " +
                 TableListings.COLUMN_NAME_HL12D + " TEXT, " +
-                TableListings.COLUMN_NAME_CHILD_NAME + " TEXT, " +
+                TableListings.COLUMN_NAME_HL13 + " TEXT, " +
+                TableListings.COLUMN_NAME_HL13X + " TEXT, " +
+                TableListings.COLUMN_NAME_HL14 + " TEXT, " +
+                TableListings.COLUMN_NAME_HL14X + " TEXT, " +
+                TableListings.COLUMN_NAME_PROJECTNAME + " TEXT, " +
+                TableListings.COLUMN_NAME_USERNAME + " TEXT, " +
+                TableListings.COLUMN_NAME_SYSDATE + " TEXT, " +
+                TableListings.COLUMN_NAME_DCODE + " TEXT, " +
+                TableListings.COLUMN_NAME_UCODE + " TEXT, " +
+                TableListings.COLUMN_NAME_CLUSTER + " TEXT, " +
+                TableListings.COLUMN_NAME_DEVICETAG + " TEXT, " +
                 TableListings.COLUMN_NAME_DEVICEID + " TEXT, " +
-                TableListings.COLUMN_NAME_GPSLat + " TEXT, " +
-                TableListings.COLUMN_NAME_GPSLng + " TEXT, " +
-                TableListings.COLUMN_NAME_GPSTime + " TEXT, " +
-                TableListings.COLUMN_NAME_ROUND + " TEXT, " +
-                TableListings.COLUMN_NAME_GPSAccuracy + " TEXT " +
+                TableListings.COLUMN_NAME_APPVER + " TEXT, " +
+                TableListings.COLUMN_NAME_GPS + " TEXT, " +
+                TableListings.COLUMN_NAME_ENDTIME + " TEXT, " +
+                TableListings.COLUMN_NAME_STATUS + " TEXT, " +
+                TableListings.COLUMN_NAME_SYNCED + " TEXT, " +
+                TableListings.COLUMN_NAME_SYNCDATE + " TEXT " +
+
                 " );";
 
         final String SQL_CREATE_DISTRICT_TABLE = "CREATE TABLE " + TableDistricts.TABLE_NAME + " (" +
@@ -132,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public Long addForm(Listings lc) {
+    public Long addListing(Listings lc) {
 
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
@@ -140,32 +154,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(TableListings.COLUMN_NAME_UID, lc.getUID());
-        values.put(TableListings.COLUMN_NAME_HHDATETIME, lc.getHhDT());
+        values.put(TableListings.COLUMN_NAME_HHDT, lc.getHhDT());
         values.put(TableListings.COLUMN_NAME_HL01, lc.getHl01());
         values.put(TableListings.COLUMN_NAME_HL02, lc.getHl02());
         values.put(TableListings.COLUMN_NAME_HL03, lc.getHl03());
-
-        MainApp.updateCluster(lc.getHl03(), lc.getHl04());
-        Log.d(TAG, "ClusterExist (Test): " + sharedPref.getString(lc.getHl03(), "0"));
-
         values.put(TableListings.COLUMN_NAME_HL04, lc.getHl04());
+        values.put(TableListings.COLUMN_NAME_HL04X, lc.getHl04x());
         values.put(TableListings.COLUMN_NAME_HL05, lc.getHl05());
         values.put(TableListings.COLUMN_NAME_HL06, lc.getHl06());
+        values.put(TableListings.COLUMN_NAME_HLDELETE, lc.getHlDelete());
         values.put(TableListings.COLUMN_NAME_HL07, lc.getHl07());
         values.put(TableListings.COLUMN_NAME_HL0796X, lc.getHl0796x());
         values.put(TableListings.COLUMN_NAME_HL08, lc.getHl08());
         values.put(TableListings.COLUMN_NAME_HL09, lc.getHl09());
+        values.put(TableListings.COLUMN_NAME_HL09X, lc.getHl09x());
         values.put(TableListings.COLUMN_NAME_HL10, lc.getHl10());
         values.put(TableListings.COLUMN_NAME_HL11, lc.getHl11());
-        values.put(TableListings.COLUMN_NAME_HL12M, lc.getHl12m());
+        values.put(TableListings.COLUMN_NAME_HL12, lc.getHl12());
         values.put(TableListings.COLUMN_NAME_HL12D, lc.getHl12d());
-        values.put(TableListings.COLUMN_NAME_CHILD_NAME, lc.getHhChildNm());
-        values.put(TableListings.COLUMN_NAME_DEVICEID, lc.getDeviceID());
-        values.put(TableListings.COLUMN_NAME_GPSLat, lc.getGPSLat());
-        values.put(TableListings.COLUMN_NAME_GPSLng, lc.getGPSLng());
-        values.put(TableListings.COLUMN_NAME_GPSTime, lc.getGPSTime());
-        values.put(TableListings.COLUMN_NAME_GPSAccuracy, lc.getGPSAcc());
-        values.put(TableListings.COLUMN_NAME_ROUND, lc.getRound());
+        values.put(TableListings.COLUMN_NAME_HL13, lc.getHl13());
+        values.put(TableListings.COLUMN_NAME_HL13X, lc.getHl13x());
+        values.put(TableListings.COLUMN_NAME_HL14, lc.getHl14());
+        values.put(TableListings.COLUMN_NAME_HL14X, lc.getHl14x());
+        values.put(TableListings.COLUMN_NAME_PROJECTNAME, lc.getProjectName());
+        values.put(TableListings.COLUMN_NAME_USERNAME, lc.getUserName());
+        values.put(TableListings.COLUMN_NAME_SYSDATE, lc.getSysDate());
+        values.put(TableListings.COLUMN_NAME_DCODE, lc.getDcode());
+        values.put(TableListings.COLUMN_NAME_UCODE, lc.getUcode());
+        values.put(TableListings.COLUMN_NAME_CLUSTER, lc.getCluster());
+        values.put(TableListings.COLUMN_NAME_DEVICEID, lc.getDeviceId());
+        values.put(TableListings.COLUMN_NAME_DEVICETAG, lc.getDeviceTag());
+        values.put(TableListings.COLUMN_NAME_APPVER, lc.getAppver());
+        values.put(TableListings.COLUMN_NAME_GPS, lc.getGps());
+        values.put(TableListings.COLUMN_NAME_ENDTIME, lc.getEndTime());
+        values.put(TableListings.COLUMN_NAME_STATUS, lc.getStatus());
+        values.put(TableListings.COLUMN_NAME_SYNCED, lc.getSynced());
+        values.put(TableListings.COLUMN_NAME_SYNCDATE, lc.getSysDate());
 
         long newRowId;
         newRowId = db.insert(
@@ -184,8 +208,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(TableDistricts.COLUMN_DISTRICT_CODE, dc.getDistrictCode());
-        values.put(TableDistricts.COLUMN_DISTRICT_NAME, dc.getDistrictName());
+        values.put(TableDistricts.COLUMN_DISTRICT_CODE, dc.getDist_id());
+        values.put(TableDistricts.COLUMN_DISTRICT_NAME, dc.getDistrict());
 
         long newRowId;
         newRowId = db.insert(
@@ -196,34 +220,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
+    public void updateListingUID(String columnNameUid, String uid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+// New value for one column
+        ContentValues values = new ContentValues();
+        values.put(TableListings.COLUMN_NAME_UID, MainApp.listing.getUID());
+
+// Which row to update, based on the title
+        String where = TableListings._ID + " = ?";
+        String[] whereArgs = {MainApp.listing.getID()};
+        db.update(
+                TableListings.TABLE_NAME,
+                values,
+                where,
+                whereArgs);
+    }
+
     public Collection<Listings> getAllListings() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = null;
         String[] columns = {
                 TableListings._ID,
                 TableListings.COLUMN_NAME_UID,
-                TableListings.COLUMN_NAME_HHDATETIME,
+                TableListings.COLUMN_NAME_HHDT,
                 TableListings.COLUMN_NAME_HL01,
                 TableListings.COLUMN_NAME_HL02,
                 TableListings.COLUMN_NAME_HL03,
                 TableListings.COLUMN_NAME_HL04,
+                TableListings.COLUMN_NAME_HL04X,
                 TableListings.COLUMN_NAME_HL05,
                 TableListings.COLUMN_NAME_HL06,
+                TableListings.COLUMN_NAME_HLDELETE,
                 TableListings.COLUMN_NAME_HL07,
                 TableListings.COLUMN_NAME_HL0796X,
                 TableListings.COLUMN_NAME_HL08,
                 TableListings.COLUMN_NAME_HL09,
+                TableListings.COLUMN_NAME_HL09X,
                 TableListings.COLUMN_NAME_HL10,
                 TableListings.COLUMN_NAME_HL11,
-                TableListings.COLUMN_NAME_HL12M,
+                TableListings.COLUMN_NAME_HL12,
                 TableListings.COLUMN_NAME_HL12D,
-                TableListings.COLUMN_NAME_CHILD_NAME,
+                TableListings.COLUMN_NAME_HL13,
+                TableListings.COLUMN_NAME_HL13X,
+                TableListings.COLUMN_NAME_HL14,
+                TableListings.COLUMN_NAME_HL14X,
+                TableListings.COLUMN_NAME_PROJECTNAME,
+                TableListings.COLUMN_NAME_USERNAME,
+                TableListings.COLUMN_NAME_SYSDATE,
+                TableListings.COLUMN_NAME_DCODE,
+                TableListings.COLUMN_NAME_UCODE,
+                TableListings.COLUMN_NAME_CLUSTER,
                 TableListings.COLUMN_NAME_DEVICEID,
-                TableListings.COLUMN_NAME_GPSLat,
-                TableListings.COLUMN_NAME_GPSLng,
-                TableListings.COLUMN_NAME_GPSTime,
-                TableListings.COLUMN_NAME_GPSAccuracy,
-                TableListings.COLUMN_NAME_ROUND
+                TableListings.COLUMN_NAME_DEVICETAG,
+                TableListings.COLUMN_NAME_APPVER,
+                TableListings.COLUMN_NAME_GPS,
+                TableListings.COLUMN_NAME_ENDTIME,
+                TableListings.COLUMN_NAME_STATUS,
+                TableListings.COLUMN_NAME_SYNCED,
+                TableListings.COLUMN_NAME_SYNCDATE,
+
         };
 
         String whereClause = null;
@@ -246,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     orderBy                    // The sort order
             );
             while (c.moveToNext()) {
-                allLC.add(hydrate(c));
+                allLC.add(new Listings().hydrate(c));
             }
         } finally {
             if (c != null) {
@@ -390,64 +446,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return allPC;
     }
 
-    private ContentValues getContentValues(Listings lc) {
-        ContentValues values = new ContentValues();
-        values.put(TableListings._ID, lc.getID());
-        values.put(TableListings.COLUMN_NAME_UID, lc.getUID());
-        values.put(TableListings.COLUMN_NAME_HHDATETIME, lc.getHhDT());
-        values.put(TableListings.COLUMN_NAME_HL01, lc.getHl01());
-        values.put(TableListings.COLUMN_NAME_HL02, lc.getHl02());
-        values.put(TableListings.COLUMN_NAME_HL03, lc.getHl03());
-        values.put(TableListings.COLUMN_NAME_HL04, lc.getHl04());
-        values.put(TableListings.COLUMN_NAME_HL05, lc.getHl05());
-        values.put(TableListings.COLUMN_NAME_HL06, lc.getHl06());
-        values.put(TableListings.COLUMN_NAME_HL07, lc.getHl07());
-        values.put(TableListings.COLUMN_NAME_HL0796X, lc.getHl0796x());
-        values.put(TableListings.COLUMN_NAME_HL08, lc.getHl08());
-        values.put(TableListings.COLUMN_NAME_HL09, lc.getHl09());
-        values.put(TableListings.COLUMN_NAME_HL10, lc.getHl10());
-        values.put(TableListings.COLUMN_NAME_HL11, lc.getHl11());
-        values.put(TableListings.COLUMN_NAME_HL12M, lc.getHl12m());
-        values.put(TableListings.COLUMN_NAME_HL12D, lc.getHl12d());
-        values.put(TableListings.COLUMN_NAME_CHILD_NAME, lc.getHhChildNm());
-        values.put(TableListings.COLUMN_NAME_DEVICEID, lc.getDeviceID());
-        values.put(TableListings.COLUMN_NAME_GPSLat, lc.getGPSLat());
-        values.put(TableListings.COLUMN_NAME_GPSLng, lc.getGPSLng());
-        values.put(TableListings.COLUMN_NAME_GPSTime, lc.getGPSTime());
-        values.put(TableListings.COLUMN_NAME_GPSAccuracy, lc.getGPSAcc());
-        values.put(TableListings.COLUMN_NAME_ROUND, lc.getRound());
 
-        return values;
-    }
 
-    private Listings hydrate(Cursor c) {
-        Listings lc = new Listings(c.getString(c.getColumnIndex(TableListings._ID)));
-        lc.setUID(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_UID))));
-        lc.setHhDT(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HHDATETIME))));
-        lc.setHl01(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL01))));
-        lc.setHl02(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL02))));
-        lc.setHl03(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL03))));
-        lc.setHl04(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL04))));
-        lc.setHl05(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL05))));
-        lc.setHl06(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL06))));
-        lc.setHl07(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL07))));
-        lc.setHl0796x(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL0796X))));
-        lc.setHl08(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL08))));
-        lc.setHl09(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL09))));
-        lc.setHl10(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL10))));
-        lc.setHl11(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL11))));
-        lc.setHl12m(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL12M))));
-        lc.setHl12d(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_HL12D))));
-        lc.setHhChildNm(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_CHILD_NAME))));
-        lc.setDeviceID(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_DEVICEID))));
-        lc.setGPSLat(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_GPSLat))));
-        lc.setGPSLng(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_GPSLng))));
-        lc.setGPSTime(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_GPSTime))));
-        lc.setGPSAcc(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_GPSAccuracy))));
-        lc.setRound(String.valueOf(c.getString(c.getColumnIndex(TableListings.COLUMN_NAME_ROUND))));
 
-        return lc;
-    }
 
     public ArrayList<Cursor> getData(String Query) {
         //get writable database
@@ -510,8 +511,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 District.sync(jsonObjectDistrict);
                 ContentValues values = new ContentValues();
 
-                values.put(TableDistricts.COLUMN_DISTRICT_CODE, District.getDistrictCode());
-                values.put(TableDistricts.COLUMN_DISTRICT_NAME, District.getDistrictName());
+                values.put(TableDistricts.COLUMN_DISTRICT_CODE, District.getDist_id());
+                values.put(TableDistricts.COLUMN_DISTRICT_NAME, District.getDistrict());
                 long rowID = db.insert(TableDistricts.TABLE_NAME, null, values);
                 if (rowID != -1) insertCount++;
             }

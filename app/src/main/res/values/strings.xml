@@ -5,7 +5,8 @@
     <string name="hl03"> کلسٹر نمبر </string>
 
     <string name="hl04">  علاقہ[گائوں/گوٹھ/موضع/ٹائون/گلی/بلاک/لین]: </string>
-    <string name="hl06"> اسٹرکچر کا نمبر </string>
+    <string name="hl05"> اسٹرکچر نمبر </string>
+    <string name="hl06"> گھرانہ نمبر </string>
     <string name="hl07"> اسٹرکچر کی قسم </string>
     <string name="hl07a"> رہائشی </string>
     <string name="hl07b"> دکان/مارکیٹ/پلازہ </string>
@@ -20,10 +21,13 @@
     <string name="hl10"> اگر ہاں، تو سوال نمبر 7 سے گھرانے کا سیریل نمبر لکھیں </string>
     <string name="hl11"> گھرانے کے سربراہ کا نام </string>
     <string name="hl12"> گھرانے کے افراد کی تعداد </string>
-    <string name="hl13"> پانچ سال سے کم عمر بچوں کی تعداد </string>
+    <string name="hl13"> تین (0-3) سال سے کم عمر بچوں کی تعداد </string>
+    <string name="hl14"> پانچ (3-5) سال سے کم عمر بچوں کی تعداد </string>
+    <string name="hl15"> کیا اس گھر میں مذید کوئی خاندان رہائش پزیر ہے </string>
 
     <string name="yes"> ہاں </string>
     <string name="no"> نہیں </string>
+    <string name="count"> تعداد </string>
 
     <string name="txtMsg">1234567890-=+ qwertyuiop[]asdfghjkl;zxcvbnm,.QWERTYUIOP{}ASDFGHJKL:ZXCVBNM?</string>
     <string name="child_name">بچے کا نام</string>
@@ -32,4 +36,6 @@
     <string name="hl12d">دن</string>
     <string name="btnDownload">Download Data</string>
     <string name="btnUpload">Upload Data</string>
+    <string name="delete">Delete this household</string>
+    <string name="main_activity">Main Menu</string>
 </resources>

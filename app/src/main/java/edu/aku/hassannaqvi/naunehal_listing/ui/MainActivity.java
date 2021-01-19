@@ -1,6 +1,5 @@
 package edu.aku.hassannaqvi.naunehal_listing.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,11 +8,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import java.text.SimpleDateFormat;
@@ -31,12 +35,12 @@ import edu.aku.hassannaqvi.naunehal_listing.core.coreutils.AndroidDatabaseManage
 import edu.aku.hassannaqvi.naunehal_listing.database.DatabaseHelper;
 import edu.aku.hassannaqvi.naunehal_listing.databinding.ActivityMainBinding;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     public static String TAG = "MainActivity";
 
-    private static String ipAddress = "192.168.1.10";
-    private static String port = "3000";
+    private static final String ipAddress = "192.168.1.10";
+    private static final String port = "3000";
     public List<String> ucCode;
     ActivityMainBinding bi;
 
@@ -50,12 +54,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         bi = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        bi.setVm(this);
-
+        bi.setActivity(this);
+        MainApp.structureNo = 0;
+        MainApp.hhNo = 0;
+        MainApp.hl10 = 0;
         MainApp.listing = null;
 
         // database handler
         db = new DatabaseHelper(getApplicationContext());
+        setSupportActionBar(bi.toolbar);
+        setTitle(getString(R.string.app_name) + " :: " + getString(R.string.main_activity));
 
 
        /* // Spinner Drop down elements
@@ -161,14 +169,19 @@ public class MainActivity extends Activity {
 
     public void openForm(View view) {
 
-        Intent oF = new Intent(this, SetupActivity.class);
+        if (formValidation()) {
+            Intent oF = new Intent(this, SetupActivity.class);
 
-        if (MainApp.ClusterExist(MainApp.clusterCode)) {
-            Toast.makeText(MainActivity.this, "Cluster data exist!", Toast.LENGTH_LONG).show();
-            alertCluster();
-        } else {
-            startActivity(oF);
+            if (MainApp.ClusterExist(MainApp.clusterCode)) {
+                Toast.makeText(MainActivity.this, "Cluster data exist!", Toast.LENGTH_LONG).show();
+                MainApp.hl10 = Integer.parseInt(MainApp.sharedPref.getString(MainApp.clusterCode + "Res", "0"));
+
+                alertCluster();
+            } else {
+                startActivity(oF);
+            }
         }
+
     }
 
     public void openDB(View view) {
@@ -234,8 +247,8 @@ public class MainActivity extends Activity {
 
         Collection<DistrictsContract> dc = db.getAllDistricts();
         for (DistrictsContract d : dc) {
-            districtCode.add(d.getDistrictCode());
-            districtName.add(d.getDistrictName());
+            districtCode.add(d.getDist_id());
+            districtName.add(d.getDistrict());
         }
         ArrayAdapter<String> DistrictAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, districtName);
 
@@ -270,6 +283,7 @@ public class MainActivity extends Activity {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         MainApp.ucCode = ucCode.get(position);
                         List<String> clusterCode = new ArrayList<>();
+                        clusterCode.add("...");
                         Collection<ClustersContract> clusters = db.getAllClustersByUC(ucCode.get(position));
                         if (clusters.size() < 1) {
                             Toast.makeText(MainActivity.this, "No Clusters Found.", Toast.LENGTH_SHORT).show();
@@ -281,12 +295,23 @@ public class MainActivity extends Activity {
                             // ucName.add(cluster.getUcName());
                         }
 
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, clusterCode);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, clusterCode);
                         bi.hl03.setAdapter(adapter);
-                        bi.hl03.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        bi.hl03.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                MainApp.clusterCode = bi.hl03.getText().toString();
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if (position > 0) {
+                                    bi.openForm.setBackground(getDrawable(R.drawable.action_button));
+                                    bi.openForm.setEnabled(true);
+                                } else {
+                                    bi.openForm.setBackground(getDrawable(R.drawable.action_button_inactive));
+                                    bi.openForm.setEnabled(false);
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
 
                             }
                         });
@@ -305,5 +330,52 @@ public class MainActivity extends Activity {
 
             }
         });
+    }
+
+    private boolean formValidation() {
+
+// TODO: Validation
+
+        if (bi.hl01.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "No District Selected ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (bi.hl02.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "No UC Selected ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (bi.hl03.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "No Cluster Selected ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case R.id.action_sync:
+                startActivity(new Intent(this, SyncActivity.class));
+                break;
+
+            case R.id.action_database:
+                startActivity(new Intent(this, AndroidDatabaseManager.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -58,7 +58,9 @@ public class MainApp extends Application {
     public static String districtsCode;
     public static String ucCode;
     public static String clusterCode;
-    public static int structureNo;
+    public static int structureNo = 0;
+    public static int hhNo = 0;
+    public static int hl10 = 0;
     public static String userName;
 
     public static SharedPreferences sharedPref;
@@ -84,17 +86,17 @@ public class MainApp extends Application {
         Log.d(TAG, "ClusterExist: " + clusterCode);
         MainApp.structureNo = Integer.parseInt(sharedPref.getString(clusterCode, "0"));
         Log.d(TAG, "ClusterExist (Test): " + sharedPref.getString(clusterCode, "0"));
+        return MainApp.structureNo != 0;
 
-        if (MainApp.clusterCode.equals(0)) {
-            Log.d(TAG, "ClusterExist (False): " + MainApp.clusterCode);
-
-            return false;
-        } else {
+       /* if (!MainApp.clusterCode.equals("0")) {
             Log.d(TAG, "ClusterExist (True): " + MainApp.clusterCode);
-
-            return true;
-        }
+             return true;
+        } else {
+            Log.d(TAG, "ClusterExist (False): " + MainApp.clusterCode);
+            return false;
+        }*/
     }
+
 
     @Override
     public void onCreate() {

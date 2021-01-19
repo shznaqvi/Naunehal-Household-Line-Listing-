@@ -11,7 +11,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="vm"
+            name="activity"
             type="edu.aku.hassannaqvi.naunehal_listing.ui.MainActivity" />
     </data>
 
@@ -34,7 +34,8 @@
         <ScrollView
             android:id="@+id/activity_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/app_bg_color">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,14 +117,14 @@
                                 android:paddingTop="8dp"
                                 android:text="Cluster No." />
 
-                            <AutoCompleteTextView
+                            <Spinner
                                 android:id="@+id/hl03"
                                 android:layout_width="280dp"
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
-                                android:dropDownHeight="100dp"
-                                android:minHeight="48dp"
-                                android:padding="8dp" />
+                                android:minHeight="48dp">
+
+                            </Spinner>
 
                         </LinearLayout>
                     </LinearLayout>
@@ -135,9 +136,10 @@
                     android:layout_height="36dp"
                     android:layout_gravity="end"
                     android:layout_margin="8dp"
-                    android:background="@drawable/action_button"
+                    android:background="@drawable/action_button_inactive"
                     android:onClick="openForm"
                     android:padding="8dp"
+                    android:enabled="false"
                     android:textColor="@color/white"
                     android:text="Add new household details" />
 
